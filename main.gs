@@ -27,6 +27,8 @@ function textProcess(item, lastDate) {
     PropertiesService.getScriptProperties().setProperty('lastDate', date_string);
   }
   var description = item.getChildText('description');
+  var forward = description.indexOf('<div');
+  if (forward != -1) description = description.slice(0, forward);
   var msg = "";
   var codereg = new RegExp("(?<![a-zA-Z0-9])[a-zA-Z0-9]{12}(?![a-zA-Z0-9])");
   var res = codereg.exec(description);

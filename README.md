@@ -7,7 +7,7 @@
 - 通过 RSS 服务获得最新微博文本内容并分析
 - 识别两种兑换码
   - 正则匹配获得 12 位兑换码
-    - 可能匹配到非兑换码，如 `TeenieWeenie`
+    - 可能匹配到非兑换码，目前采用黑名单机制
   - 当文本中存在 `兑换码` 时，匹配`【 】`内的内容
 - 兑换码消息推送到频道 - 闪耀暖暖微博兑换码 [@shinning_nikki_weibo_code](https://t.me/shinning_nikki_weibo_code)
 

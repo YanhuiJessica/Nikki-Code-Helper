@@ -32,9 +32,12 @@ function textProcess(item, lastDate) {
   var forward = description.indexOf('<div');
   if (forward != -1) description = description.slice(0, forward);
   var msg = "";
-  var codereg = new RegExp("(?<![a-zA-Z0-9])[a-zA-Z0-9]{12}(?![a-zA-Z0-9])");
+  var codereg = new RegExp("(?<![a-zA-Z0-9])[a-zA-Z0-9]{12}(?![a-zA-Z0-9])", "g");
   var res = codereg.exec(description);
-  if(res && black_list.indexOf(res) == -1) msg += res[0] + '\n';
+  while (res) {
+    if (black_list.indexOf(res) == -1) msg += res[0] + '\n';
+    res = codereg.exec(description);
+  }
   if (description.indexOf("兑换码") != -1) {
     var bracketsreg = new RegExp("(?<=\【)[^】]*(?=\】)", "g");
     res = bracketsreg.exec(description);

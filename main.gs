@@ -1,4 +1,5 @@
 var black_list = ['TeenieWeenie'];
+var latest, lastDate;
 
 function send(payload) {
   if (payload) {
@@ -21,12 +22,13 @@ function getItems() {
   return items;
 }
 
-function textProcess(item, lastDate) {
+function textProcess(item) {
   var date_string = item.getChildText('pubDate');
   var date = new Date(date_string);
   if (lastDate && date <= lastDate) return null;
-  else{
+  else if (date > latest) {
     PropertiesService.getScriptProperties().setProperty('lastDate', date_string);
+    latest = date;
   }
   var description = item.getChildText('description');
   var forward = description.indexOf('<div');
@@ -51,9 +53,10 @@ function textProcess(item, lastDate) {
 
 function main() {
   var items = getItems();
-  var lastDate = new Date(PropertiesService.getScriptProperties().getProperty('lastDate'));
+  lastDate = new Date(PropertiesService.getScriptProperties().getProperty('lastDate'));
+  latest = lastDate;
   for (var i in items) {
-    var msg = textProcess(items[i], lastDate);
+    var msg = textProcess(items[i]);
     if(msg) {
       send({
         "method": "sendMessage",

@@ -44,6 +44,10 @@ function textProcess(item) {
     var bracketsreg = new RegExp("(?<=\【)[^】]*(?=\】)", "g");
     res = bracketsreg.exec(description);
     while (res) {
+      if (res == "评论") {
+        res = bracketsreg.exec(description);
+        continue;
+      }
       msg += res[0] + '\n';
       res = bracketsreg.exec(description);
     }

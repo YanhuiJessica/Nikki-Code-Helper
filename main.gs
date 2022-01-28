@@ -31,7 +31,7 @@ function textProcess(item) {
     latest = date;
   }
   var description = item.getChildText('description');
-  var forward = description.indexOf('<div');
+  var forward = description.indexOf('<blockquote');
   if (forward != -1) description = description.slice(0, forward);
   var msg = "";
   var codereg = new RegExp("(?<![a-zA-Z0-9])[a-zA-Z0-9]{12}(?![a-zA-Z0-9])", "g");

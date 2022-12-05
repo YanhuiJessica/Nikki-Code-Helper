@@ -14,7 +14,7 @@ function send(payload) {
 }
 
 function getItems() {
-  var feed = UrlFetchApp.fetch('https://weiboredeemrss.herokuapp.com/weibo/user/6498105282').getContentText();
+  var feed = UrlFetchApp.fetch('https://rssh-ub-three-gamma.vercel.app/weibo/user/6498105282').getContentText();
   var doc = XmlService.parse(feed);
   var root = doc.getRootElement();
   var channel = root.getChild('channel');

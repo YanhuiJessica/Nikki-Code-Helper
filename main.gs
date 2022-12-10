@@ -60,7 +60,7 @@ function textProcess(item) {
       'contentType': 'application/json',
       'payload': JSON.stringify({
         'model': 'text-davinci-003',
-        'prompt': '请提取以下文本中的兑换码并直接输出，如没有则返回空:\n' + description,
+        'prompt': '请提取以下文本中的兑换码并直接输出:\n' + description,
         'temperature': 0,
         'max_tokens': 16
       })

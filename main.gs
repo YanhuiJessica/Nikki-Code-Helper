@@ -52,20 +52,25 @@ function textProcess(item) {
   let codereg = new RegExp("<[^>]+>", "g");
   description = description.replace(codereg, ' ');
   if (description.indexOf("兑换码") != -1) {
-    let response = UrlFetchApp.fetch('https://api.openai.com/v1/completions', {
+    let response = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', {
       'method': 'post',
       'headers': {
         'authorization': 'Bearer ' + OPENAI_API_KEY,
       },
       'contentType': 'application/json',
       'payload': JSON.stringify({
-        'model': 'text-davinci-003',
-        'prompt': '请提取以下文本中的兑换码并直接输出:\n' + description,
+        'model': 'gpt-4',
+        'messages': [
+          {
+            "role": "system",
+            "content": '请提取以下文本中的兑换码并直接输出，若无则查看是否有其它获取方式并输出:\n' + description,
+          }
+        ],
         'temperature': 0,
-        'max_tokens': 16
+        'max_tokens': 128
       })
     });
-    msg = JSON.parse(response.getContentText())['choices'][0]['text'];
+    msg = JSON.parse(response.getContentText())['choices'][0]['message']['content'];
   }
   return msg.replace(/\n/g, '');
 }

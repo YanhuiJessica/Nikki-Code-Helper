@@ -28,8 +28,8 @@ function send(payload) {
   }
 }
 
-function getItems() {
-  let feed = UrlFetchApp.fetch('https://rssh-ub-three-gamma.vercel.app/weibo/user/6498105282').getContentText();
+function getItems(uid) {
+  let feed = UrlFetchApp.fetch('https://rssh-ub-three-gamma.vercel.app/weibo/user/' + uid).getContentText();
   let doc = XmlService.parse(feed);
   let root = doc.getRootElement();
   let channel = root.getChild('channel');
@@ -76,7 +76,8 @@ function textProcess(item) {
 }
 
 function main() {
-  let items = getItems();
+  let targets = ['6498105282', '7840676854'];
+  let items = getItems(targets[0]).concat(getItems(targets[1]));
   lastDate = new Date(PropertiesService.getScriptProperties().getProperty('lastDate'));
   latest = lastDate;
   for (let i in items) {

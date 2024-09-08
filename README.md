@@ -4,7 +4,7 @@
 
 频道 - 闪耀暖暖微博兑换码 [@shinning_nikki_weibo_code](https://t.me/shinning_nikki_weibo_code)
 
-[![](https://img.shields.io/badge/dynamic/xml?color=blue&label=闪耀暖暖微博兑换码&logo=telegram&query=%2Fhtml%2Fbody%2Fdiv%5B2%5D%2Fdiv%5B2%5D%2Fdiv%2Fdiv%5B3%5D&url=https%3A%2F%2Ft.me%2Fshinning_nikki_weibo_code)](https://t.me/shinning_nikki_weibo_code)
+[![](https://img.shields.io/badge/dynamic/json?color=blue&label=闪耀暖暖微博兑换码&logo=telegram&query=%24.member_cnt&url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbxYAxa9SlCc8j41VqyE-PM3kgWy1ErvG0S4sk4OiRcHW3u9uqPFBRS_lBPN3ty00cK-lw%2Fexec%3Furl%3Dhttps%3A%2F%2Ft.me%2Fshinning_nikki_weibo_code)](https://t.me/shinning_nikki_weibo_code)
 
 ## 这只机器人能干嘛？
 

@@ -76,7 +76,7 @@ function textProcess(item) {
 }
 
 function main() {
-  let targets = ['6498105282', '7840676854'];
+  let targets = ['6498105282', '7840676854', '7521490767'];
   let items = getItems(targets[0]).concat(getItems(targets[1]));
   lastDate = new Date(PropertiesService.getScriptProperties().getProperty('lastDate'));
   latest = lastDate;

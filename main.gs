@@ -59,7 +59,7 @@ function textProcess(item) {
       },
       'contentType': 'application/json',
       'payload': JSON.stringify({
-        'model': 'gpt-4',
+        'model': 'gpt-4o',
         'messages': [
           {
             "role": "system",

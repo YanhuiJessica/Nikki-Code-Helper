@@ -13,7 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-var latest, lastDate;
+var shinningLatest, shinningLastDate;
+var infinityLatest, infinityLastDate;
 var OPENAI_API_KEY = '<openai-api-key>';
 
 function send(payload) {
@@ -37,13 +38,17 @@ function getItems(uid) {
   return items;
 }
 
-function textProcess(item) {
+function textProcess(item, lastDate, isShinningNikki) {
   let date_string = item.getChildText('pubDate');
   let date = new Date(date_string);
   if (lastDate && date <= lastDate) return null;
-  else if (date > latest) {
-    PropertiesService.getScriptProperties().setProperty('lastDate', date_string);
-    latest = date;
+  else if (isShinningNikki && date > shinningLatest) {
+    PropertiesService.getScriptProperties().setProperty('shinningLastDate', date_string);
+    shinningLatest = date;
+  }
+  else if (!isShinningNikki && date > infinityLatest) {
+    PropertiesService.getScriptProperties().setProperty('infinityLastDate', date_string);
+    infinityLatest = date;
   }
   let description = item.getChildText('description');
   let forward = description.indexOf('<blockquote');
@@ -76,16 +81,39 @@ function textProcess(item) {
 }
 
 function main() {
+  // shinning nikki
+  shinningLastDate = new Date(PropertiesService.getScriptProperties().getProperty('shinningLastDate'));
+  shinningLatest = shinningLastDate;
   let targets = ['6498105282', '7840676854', '7521490767'];
-  let items = getItems(targets[0]).concat(getItems(targets[1]));
-  lastDate = new Date(PropertiesService.getScriptProperties().getProperty('lastDate'));
-  latest = lastDate;
+  let items = getItems(targets[0]);
+  for (let i = 1; i < targets.length; i ++) {
+    items = items.concat(getItems(targets[i]));
+  }
   for (let i in items) {
-    let msg = textProcess(items[i]);
+    let msg = textProcess(items[i], shinningLastDate, true);
     if(msg) {
       send({
         "method": "sendMessage",
         "chat_id": "@shinning_nikki_weibo_code",
+        "text": msg,
+      });
+    }
+  }
+
+  // infinity nikki
+  shinningLastDate = new Date(PropertiesService.getScriptProperties().getProperty('infinityLastDate'));
+  infinityLatest = shinningLastDate;
+  targets = ['7801655101'];
+  items = getItems(targets[0]);
+  for (let i = 1; i < targets.length; i ++) {
+    items = items.concat(getItems(targets[i]));
+  }
+  for (let i in items) {
+    let msg = textProcess(items[i], shinningLastDate, false);
+    if(msg) {
+      send({
+        "method": "sendMessage",
+        "chat_id": "@infinity_nikki_weibo_code",
         "text": msg,
       });
     }

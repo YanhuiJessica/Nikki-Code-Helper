@@ -103,7 +103,7 @@ function main() {
   // infinity nikki
   shinningLastDate = new Date(PropertiesService.getScriptProperties().getProperty('infinityLastDate'));
   infinityLatest = shinningLastDate;
-  targets = ['7801655101'];
+  targets = ['7801655101', '7915828567', '7915670982'];
   items = getItems(targets[0]);
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));

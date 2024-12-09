@@ -68,7 +68,7 @@ function textProcess(item, lastDate, isShinningNikki) {
         'messages': [
           {
             "role": "system",
-            "content": '请提取以下文本中的兑换码并直接输出，若无则查看是否有其它获取方式并直接输出:\n' + description,
+            "content": '请提取以下文本中的兑换码并直接输出对应兑换码，若无则查看是否有其它获取方式并直接输出对应获取方法:\n' + description,
           }
         ],
         'temperature': 0,

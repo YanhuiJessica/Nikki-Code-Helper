@@ -64,7 +64,7 @@ function textProcess(item, lastDate, isShinningNikki) {
       },
       'contentType': 'application/json',
       'payload': JSON.stringify({
-        'model': 'gpt-4o',
+        'model': 'gpt-4.1-mini',
         'messages': [
           {
             "role": "system",

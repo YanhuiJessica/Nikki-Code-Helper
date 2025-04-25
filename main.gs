@@ -16,6 +16,7 @@ limitations under the License.
 var shinningLatest, shinningLastDate;
 var infinityLatest, infinityLastDate;
 var OPENAI_API_KEY = '<openai-api-key>';
+var OPENAI_BASE_URL = '<openai-base-url>';
 
 function send(payload) {
   if (payload) {
@@ -57,7 +58,7 @@ function textProcess(item, lastDate, isShinningNikki) {
   let codereg = new RegExp("<[^>]+>", "g");
   description = description.replace(codereg, ' ');
   if (description.indexOf("兑换码") != -1) {
-    let response = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', {
+    let response = UrlFetchApp.fetch(OPENAI_BASE_URL + 'v1/chat/completions', {
       'method': 'post',
       'headers': {
         'authorization': 'Bearer ' + OPENAI_API_KEY,
@@ -68,7 +69,7 @@ function textProcess(item, lastDate, isShinningNikki) {
         'messages': [
           {
             "role": "system",
-            "content": '请提取以下文本中的兑换码并直接输出对应兑换码，若无则查看是否有其它获取方式并直接输出对应获取方法:\n' + description,
+            "content": '请提取以下文本中的兑换码并直接输出对应兑换码(多个兑换码间用英文逗号分隔)，若无则查看是否有其它获取方式并直接输出对应获取方法:\n' + description,
           }
         ],
         'temperature': 0,
@@ -77,7 +78,7 @@ function textProcess(item, lastDate, isShinningNikki) {
     });
     msg = JSON.parse(response.getContentText())['choices'][0]['message']['content'];
   }
-  return msg.replace(/\n/g, '');
+  return msg.replace(/\n/g, '').replace(/,/g, '\n');
 }
 
 function main() {

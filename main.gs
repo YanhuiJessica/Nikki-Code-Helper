@@ -17,6 +17,7 @@ var shinningLatest, shinningLastDate;
 var infinityLatest, infinityLastDate;
 var OPENAI_API_KEY = '<openai-api-key>';
 var OPENAI_BASE_URL = '<openai-base-url>';
+var RSS_BASE_URL = '<rss-base-url>';
 
 function send(payload) {
   if (payload) {
@@ -31,7 +32,7 @@ function send(payload) {
 }
 
 function getItems(uid) {
-  let feed = UrlFetchApp.fetch('https://rssh-ub-three-gamma.vercel.app/weibo/user/' + uid).getContentText();
+  let feed = UrlFetchApp.fetch(RSS_BASE_URL + uid).getContentText();
   let doc = XmlService.parse(feed);
   let root = doc.getRootElement();
   let channel = root.getChild('channel');

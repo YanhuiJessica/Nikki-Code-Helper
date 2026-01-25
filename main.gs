@@ -66,7 +66,7 @@ function textProcess(item, lastDate, isShinningNikki) {
       },
       'contentType': 'application/json',
       'payload': JSON.stringify({
-        'model': 'gpt-5-mini',
+        'model': 'gpt-5.2',
         'input': '请提取以下文本中的兑换码并直接输出对应兑换码(多个兑换码间用英文逗号分隔)，若无则查看是否有其它获取方式并直接输出对应获取方法:\n' + description,
         'reasoning': {
           'effort': 'low'
@@ -102,15 +102,15 @@ function main() {
   }
 
   // infinity nikki
-  shinningLastDate = new Date(PropertiesService.getScriptProperties().getProperty('infinityLastDate'));
-  infinityLatest = shinningLastDate;
+  infinityLastDate = new Date(PropertiesService.getScriptProperties().getProperty('infinityLastDate'));
+  infinityLatest = infinityLastDate;
   targets = ['7801655101', '7915828567', '7915670982'];
   items = getItems(targets[0]);
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));
   }
   for (let i in items) {
-    let msg = textProcess(items[i], shinningLastDate, false);
+    let msg = textProcess(items[i], infinityLastDate, false);
     if(msg) {
       send({
         "method": "sendMessage",

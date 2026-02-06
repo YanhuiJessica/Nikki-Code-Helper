@@ -66,8 +66,8 @@ function textProcess(item, lastDate, isShinningNikki) {
       },
       'contentType': 'application/json',
       'payload': JSON.stringify({
-        'model': 'gpt-5.2',
-        'input': '请提取以下文本中的兑换码并直接输出对应兑换码(多个兑换码间用英文逗号分隔)，若无则查看是否有其它获取方式并直接输出对应获取方法:\n' + description,
+        'model': 'gpt-5-mini',
+        'input': '请提取以下文本中的兑换码并直接输出对应兑换码(多个兑换码间用英文逗号分隔),若无则查看是否有其它获取方式并直接输出对应获取方法(忽略直播间掉落的兑换码预告),若无获取方式请输出空字符串:\n' + description,
         'reasoning': {
           'effort': 'low'
         },
@@ -78,7 +78,7 @@ function textProcess(item, lastDate, isShinningNikki) {
     });
     msg = JSON.parse(response.getContentText())['output'][1]['content'][0]['text'];
   }
-  return msg.replace(/\n/g, '').replace(/,/g, '\n');
+  return msg.replace(/\n/g, '').replace(/,/g, '\n').replace(/"/g, '');
 }
 
 function main() {

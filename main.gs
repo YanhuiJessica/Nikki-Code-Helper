@@ -44,14 +44,6 @@ function textProcess(item, lastDate, isShinningNikki) {
   let date_string = item.getChildText('pubDate');
   let date = new Date(date_string);
   if (lastDate && date <= lastDate) return null;
-  else if (isShinningNikki && date > shinningLatest) {
-    PropertiesService.getScriptProperties().setProperty('shinningLastDate', date_string);
-    shinningLatest = date;
-  }
-  else if (!isShinningNikki && date > infinityLatest) {
-    PropertiesService.getScriptProperties().setProperty('infinityLastDate', date_string);
-    infinityLatest = date;
-  }
   let description = item.getChildText('description');
   let forward = description.indexOf('<blockquote');
   if (forward != -1) description = description.slice(0, forward);
@@ -77,6 +69,14 @@ function textProcess(item, lastDate, isShinningNikki) {
       })
     });
     msg = JSON.parse(response.getContentText())['output'][1]['content'][0]['text'];
+  }
+  if (isShinningNikki && date > shinningLatest) {
+    PropertiesService.getScriptProperties().setProperty('shinningLastDate', date_string);
+    shinningLatest = date;
+  }
+  else if (!isShinningNikki && date > infinityLatest) {
+    PropertiesService.getScriptProperties().setProperty('infinityLastDate', date_string);
+    infinityLatest = date;
   }
   return msg.replace(/\n/g, '').replace(/,/g, '\n').replace(/"/g, '');
 }

@@ -90,9 +90,10 @@ function main() {
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));
   }
+  let shinningMap = new Map();
   for (let i in items) {
     let msg = textProcess(items[i], shinningLastDate, true);
-    if(msg) {
+    if(msg && !shinningMap.has(msg) && shinningMap.set(msg, 1)) {
       send({
         "method": "sendMessage",
         "chat_id": "@shinning_nikki_weibo_code",
@@ -109,9 +110,10 @@ function main() {
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));
   }
+  let infinityMap = new Map();
   for (let i in items) {
     let msg = textProcess(items[i], infinityLastDate, false);
-    if(msg) {
+    if(msg && !infinityMap.has(msg) && infinityMap.set(msg, 1)) {
       send({
         "method": "sendMessage",
         "chat_id": "@infinity_nikki_weibo_code",

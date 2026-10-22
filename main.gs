@@ -81,6 +81,28 @@ function textProcess(item, lastDate, isShinningNikki) {
   return msg.replace(/\n/g, '').replace(/,/g, '\n').replace(/"/g, '');
 }
 
+function loadRecentCodes(propertyName) {
+  let value = PropertiesService.getScriptProperties().getProperty(propertyName);
+  return value ? JSON.parse(value).slice(-10) : [];
+}
+
+function sendNewCodes(msg, recentCodes, propertyName, chatId) {
+  let codes = [...new Set(msg.split('\n').map(code => code.trim()).filter(Boolean))];
+  let newCodes = codes.filter(code => !recentCodes.includes(code));
+  if (!newCodes.length) return;
+
+  send({
+    "method": "sendMessage",
+    "chat_id": chatId,
+    "text": newCodes.join('\n'),
+  });
+  for (let code of newCodes) {
+    recentCodes.push(code);
+    if (recentCodes.length > 10) recentCodes.shift();
+  }
+  PropertiesService.getScriptProperties().setProperty(propertyName, JSON.stringify(recentCodes));
+}
+
 function main() {
   // shinning nikki
   shinningLastDate = new Date(PropertiesService.getScriptProperties().getProperty('shinningLastDate'));
@@ -90,16 +112,10 @@ function main() {
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));
   }
-  let shinningMap = new Map();
+  let shinningRecentCodes = loadRecentCodes('shinningRecentCodes');
   for (let i in items) {
     let msg = textProcess(items[i], shinningLastDate, true);
-    if(msg && !shinningMap.has(msg) && shinningMap.set(msg, 1)) {
-      send({
-        "method": "sendMessage",
-        "chat_id": "@shinning_nikki_weibo_code",
-        "text": msg,
-      });
-    }
+    if (msg) sendNewCodes(msg, shinningRecentCodes, 'shinningRecentCodes', '@shinning_nikki_weibo_code');
   }
 
   // infinity nikki
@@ -110,15 +126,9 @@ function main() {
   for (let i = 1; i < targets.length; i ++) {
     items = items.concat(getItems(targets[i]));
   }
-  let infinityMap = new Map();
+  let infinityRecentCodes = loadRecentCodes('infinityRecentCodes');
   for (let i in items) {
     let msg = textProcess(items[i], infinityLastDate, false);
-    if(msg && !infinityMap.has(msg) && infinityMap.set(msg, 1)) {
-      send({
-        "method": "sendMessage",
-        "chat_id": "@infinity_nikki_weibo_code",
-        "text": msg,
-      });
-    }
+    if (msg) sendNewCodes(msg, infinityRecentCodes, 'infinityRecentCodes', '@infinity_nikki_weibo_code');
   }
 }

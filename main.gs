@@ -97,7 +97,7 @@ function sendNewCodes(msg, recentCodes, propertyName, chatId) {
     "text": newCodes.join('\n'),
   });
   for (let code of newCodes) {
-    recentCodes.push(code);
+    if (code.length < 20) recentCodes.push(code);
     if (recentCodes.length > 10) recentCodes.shift();
   }
   PropertiesService.getScriptProperties().setProperty(propertyName, JSON.stringify(recentCodes));
